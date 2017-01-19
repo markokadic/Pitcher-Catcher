@@ -74,6 +74,7 @@ public class TCPPing {
 					
 				} catch (IOException e) {
 					System.out.println(help());
+					e.printStackTrace();
 					return;
 				}
 			}
@@ -83,6 +84,7 @@ public class TCPPing {
 			}
 		} catch (Exception e) {
 			System.out.println(help());
+			System.out.println(e.getStackTrace());
 		}
 	}
 	

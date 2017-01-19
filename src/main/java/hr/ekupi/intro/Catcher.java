@@ -11,9 +11,12 @@ import java.util.Date;
 public class Catcher extends Thread {
 	
 	private static DatagramSocket socket = null; 
+	private InetAddress addr = null;
 
 	public Catcher(String address, String portNum) throws IOException {
-		socket = new DatagramSocket(Integer.parseInt(portNum), InetAddress.getByName(address));
+		addr = InetAddress.getByName(address);
+		socket = new DatagramSocket(Integer.parseInt(portNum));
+		
 	}
 	
 	@Override
@@ -25,6 +28,10 @@ public class Catcher extends Thread {
 				DatagramPacket receivedPacket = new DatagramPacket(buf, buf.length);
 				socket.receive(receivedPacket);   	
 				
+				if(!receivedPacket.getAddress().equals(addr)) {
+					continue;
+				}
+
 				ByteBuffer packetData = ByteBuffer.wrap(buf);
 				
 				int pckgNum = packetData.getInt();
